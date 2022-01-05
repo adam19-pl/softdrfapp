@@ -1,5 +1,2 @@
 web: gunicorn drfproject.wsgi
-release: python manage.py makemigrations --noinput
-release: python manage.py makemigrations drfapp --noinput
 release: python manage.py collectstatic --noinput
-release: python manage.py migrate --run-syncdb
