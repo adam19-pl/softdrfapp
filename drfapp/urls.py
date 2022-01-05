@@ -8,6 +8,7 @@ urlpatterns = [
     path('users/<int:pk>/', views.UserDetail.as_view()),
     path('comments/', views.CommentList.as_view()),
     path('comments/<int:pk>/', views.CommentDetail.as_view()),
-    path('register', views.RegisterView.as_view()),
+    path('register/', views.RegisterView.as_view()),
+    path('logout/blacklist/',views.BlackListTokenView.as_view(),name='blacklist')
 ]
 
