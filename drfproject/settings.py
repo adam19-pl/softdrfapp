@@ -132,7 +132,7 @@ REST_FRAMEWORK = {
 CSRF_TRUSTED_ORIGINS = ['https://softreactapp.herokuapp.com/']
 CORS_ALLOWED_ORIGINS = ['https://softreactapp.herokuapp.com/']
 CORS_ORIGIN_WHITELIST =['https://softreactapp.herokuapp.com/']
-AUTH_USER_MODEL = "drfapp.NewUser"
+AUTH_USER_MODEL = "NewUser"
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
