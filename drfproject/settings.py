@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -129,13 +129,13 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
-CSRF_TRUSTED_ORIGINS = ['https://softreactapp.herokuapp.com/']
-CORS_ALLOWED_ORIGINS = ['https://softreactapp.herokuapp.com/']
-CORS_ORIGIN_WHITELIST =['https://softreactapp.herokuapp.com/']
-AUTH_USER_MODEL = "NewUser"
+CSRF_TRUSTED_ORIGINS = ['https://softreactapp.herokuapp.com']
+CORS_ALLOWED_ORIGINS = ['https://softreactapp.herokuapp.com']
+CORS_ORIGIN_WHITELIST =['https://softreactapp.herokuapp.com']
+AUTH_USER_MODEL = "drfapp.NewUser"
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
