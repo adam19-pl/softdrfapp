@@ -65,7 +65,7 @@ class Project(models.Model):
     started = models.DateTimeField(default=timezone.now, null=False)
     ended = models.DateTimeField(default=None, null=True)
     status = models.CharField(choices=STATUS, default=STATUS[0], max_length=256)
-    employers = models.ManyToManyField(User)
+    employers = models.ManyToManyField(NewUser)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
