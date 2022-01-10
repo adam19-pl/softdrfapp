@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from django.utils import timezone
-from django.contrib.auth.models import User
+
 
 # Create your models here.
 STATUS = ((0, 'new'), (1, 'old'))
