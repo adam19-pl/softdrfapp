@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Create your models here.
 STATUS = ((0, 'new'), (1, 'old'))
@@ -64,7 +65,7 @@ class Project(models.Model):
     started = models.DateTimeField(default=timezone.now, null=False)
     ended = models.DateTimeField(default=None, null=True)
     status = models.CharField(choices=STATUS, default=STATUS[0], max_length=256)
-    employers = models.ManyToManyField(NewUser, related_name='employers', )
+    employers = models.ManyToManyField(User, related_name='employers', )
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
