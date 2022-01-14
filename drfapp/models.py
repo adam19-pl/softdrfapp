@@ -15,7 +15,7 @@ class CustomUserManager(BaseUserManager):
         other_fields.setdefault('is_superuser', True)
         other_fields.setdefault('is_active', True)
 
-        if other_fields.get('is_staff') is not True:
+        if not other_fields.get('is_staff'):
             raise ValueError('Superuser is_staff must be assigned to True')
         if other_fields.get('is_superuser') is not True:
             raise ValueError('Superuser is_superuser must be assigned to True')

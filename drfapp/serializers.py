@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
     firstname = serializers.CharField(max_length=256, min_length=2)
     lastname = serializers.CharField(max_length=256, min_length=2)
     gender = serializers.ChoiceField(choices=GENDER)
-    phone = serializers.CharField(max_length=12, allow_blank=True)
+    phone = serializers.CharField(max_length=9, allow_blank=True)
     age = serializers.IntegerField(min_value=1, max_value=100)
 
     class Meta:
