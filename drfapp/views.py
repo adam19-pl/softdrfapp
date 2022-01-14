@@ -101,11 +101,6 @@ class ProjectList(APIView):
 
 
 
-# class ProjectDetail(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Project.objects.all()
-#     serializer_class = ProjectSerializer
-#     permission_classes = [IsAuthenticated,]
-
 class ProjectDetail(APIView):
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated,]
