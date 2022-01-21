@@ -64,14 +64,25 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
         obj = self.request.user
         return obj
 
-    def put(self, request, *args, **kwargs):
+    def put(self, request, pk, *args, **kwargs):
         self.object = self.get_object()
         serializer = UserSerializer(data=request.data)
+        if self.object.id != pk:
+            return Response({"Error": "You don't have permission to make this action."},
+                            status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
             self.update(request, *args, **kwargs)
             self.object.set_password(request.data['password'])
             self.object.save()
-            return Response(serializer.data,status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.id != pk:
+            return Response({"Error": "You don't have permission to make this action."},
+                            status=status.HTTP_400_BAD_REQUEST)
+        self.object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ProjectList(APIView):
@@ -99,22 +110,27 @@ class ProjectList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
 class ProjectDetail(APIView):
     serializer_class = ProjectSerializer
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated, ]
 
-    def get(self, request,pk):
+    def get(self, request, pk):
         queryset = Project.objects.filter(id=pk)
         serializer = ProjectSerializer(queryset, many=True)
         if Project.objects.filter(employers=request.user.id):
             return Response(serializer.data)
-        return Response({"Error":"You don't have permission to view this project"},status=status.HTTP_400_BAD_REQUEST)
+        return Response({"Error": "You don't have permission to view this project"}, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request,pk):
-        serializer = ProjectSerializer(data=request.data)
+    def put(self, request, pk, *args, **kwargs):
+        try:
+            project_object = Project.objects.get(pk=pk)
+        except Project.DoesNotExist:
+            return Response({"Error": "Project not exist"}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = ProjectSerializer(project_object, data=request.data)
         if serializer.is_valid():
+            if project_object.owner.id != request.user.id:
+                return Response({"Error": "You don't have permission to edit this project"},
+                                status=status.HTTP_400_BAD_REQUEST)
             if str(request.data['owner']) not in request.data['employers']:
                 return Response({"Error": "The owner must be selected on the employers list! Please change this."},
                                 status=status.HTTP_400_BAD_REQUEST)
@@ -122,6 +138,20 @@ class ProjectDetail(APIView):
             if project:
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        try:
+            project_object = Project.objects.get(pk=pk)
+        except Project.DoesNotExist:
+            return Response({"Error": "Project not exist"}, status=status.HTTP_400_BAD_REQUEST)
+        if project_object.id != pk:
+            return Response({"Error": "You don't have permission to make this action1"},
+                            status=status.HTTP_400_BAD_REQUEST)
+        if project_object.owner.id != request.user.id:
+            return Response({"Error": "You don't have permission to make this action"},
+                            status=status.HTTP_400_BAD_REQUEST)
+        project_object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CommentList(generics.ListCreateAPIView):

@@ -129,7 +129,10 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
-
+# CSRF_TRUSTED_ORIGINS = ['http://localhost:8001']
+# CORS_ALLOWED_ORIGINS = ['http://localhost:8001']
+# CORS_ORIGIN_WHITELIST =['http://localhost:8001']
+# AUTH_USER_MODEL = "drfapp.NewUser"
 CSRF_TRUSTED_ORIGINS = ['https://softreactapp.herokuapp.com']
 CORS_ALLOWED_ORIGINS = ['https://softreactapp.herokuapp.com']
 CORS_ORIGIN_WHITELIST =['https://softreactapp.herokuapp.com']
